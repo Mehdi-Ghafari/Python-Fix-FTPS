@@ -19,8 +19,7 @@ I have written a Test Program. To use this program, you need to copy the binary 
 
 ```bash
 usage: ftpsClass [-h]
-                 ip port ftp_user ftp_pass local_pathFile local_uploadFile
-                 rmt_dir
+                 ip port ftp_user ftp_pass local_pathFile local_uploadFile rmt_dir
 ```
 ```bash
 ./ftpsClass 172.25.205.37 990 testftp Zz123456 /home/ghaffari/ testUpload.txt /mahdi
