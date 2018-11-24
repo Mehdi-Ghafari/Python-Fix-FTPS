@@ -6,11 +6,12 @@ import socket
 
 prs = argparse.ArgumentParser(description='usage')
 prs.add_argument('ip', action='store', help='ftp server ip address')
-prs.add_argument('port', action='store', help='ftp server ip port')
+prs.add_argument('port', action='store', help='ftp server port')
 prs.add_argument('ftp_user', action='store', help='ftp server username')
 prs.add_argument('ftp_pass', action='store', help='ftp server password')
-prs.add_argument('local_pathFile', action='store', help='local pathFile')
-prs.add_argument('local_uploadFile', action='store', help='local uploadFile')
+prs.add_argument('local_pathFile', action='store', help='local path For uploadFile')
+prs.add_argument('local_uploadFile', action='store', help='local Filename For uploadFile')
+prs.add_argument('rmt_dir', action='store', help='Change Remote Directory')
 args = prs.parse_args()
 
 server = args.ip
@@ -75,11 +76,14 @@ class tyFTP(ftplib.FTP_TLS):
         except Exception as e:
             print(e)
 
-    def connect(self, host='', port=0, timeout=-999):
+    def connect(self, host='', port=0, timeout=-999, **kwargs):
         """
         Connect to host.  Arguments are:
             - host: hostname to connect to (string, default previous host)
             - port: port to connect to (integer, default previous port)
+            :param timeout: -999
+            :param host: ''
+            :param port: 0
         """
         if host != '':
             self.host = host
@@ -115,7 +119,7 @@ def connect_ftp():
     # ftp.connect(server, 990)
     # ftp.auth()
     try:
-        ftp.connect(server, 990)
+        ftp.connect(server, 990, )
         ftp.auth()
     except Exception as e:
         print(e)
@@ -126,7 +130,7 @@ def connect_ftp():
     files = []
 
     try:
-        files = ftp.nlst()
+        files = ftp.nlst(args.rmt_dir)
     except ftplib.error_perm as resp:
         if str(resp) == "550 No files found":
             print("No files in this directory")
@@ -141,8 +145,10 @@ def connect_ftp():
 
 # Upload File Function For Test
 def upload_file(ftp_connection, upload_file_path):
+    # ftp_connection.set_pasv(False)
     upload_file1 = open(os.path.join(PathFile, upload_file_path), 'rb')
     print('Uploading ' + upload_file_path + "...")
+    ftp_connection.cwd(args.rmt_dir)
     ftp_connection.storbinary('STOR {}'.format(upload_file_path), upload_file1, 1000)
     ftp_connection.quit()
     ftp_connection.close()
