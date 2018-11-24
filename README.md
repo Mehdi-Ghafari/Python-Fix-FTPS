@@ -1,8 +1,9 @@
 # Fix-FTPS
 
-For the implicit FTP TLS/SSL(defualt port 990) - [FTPS](https://en.wikipedia.org/wiki/FTPS), our client program must build a TLS/SSL connection right after the socket is created. But python's class FTP_TLS doesn't reload the connect function from class FTP. We need to fix it.
+For the implicit FTP TLS/SSL (default port 990) [FTPS](https://en.wikipedia.org/wiki/FTPS), our client program must build a TLS/SSL connection right after the socket is created. But Python's FTP_TLS class doesn't reload the connect function from FTP class. We need to fix it.
 
-This derived class reloads the connect function and builds a wrapper around the socket to TLS. After you successfully connect and login to FTP server, you need to call: ftp.prot_p() before executing any FTP command!
+This derived class reloads the connect function and builds a wrapper around the socket to TLS. After you successfully connect and log into FTP server, you need to call: ftp.prot_p() before executing any FTP command!
+
 
 ## Upload-file Function
 
@@ -14,7 +15,7 @@ upload_file(ftp_connection, upload_file_path)
 
 ## Test Program
 
-I am write a Test Program, For Use this Program you need copy binary file to server and Extract with command ```tar xvf ftpsTest.tar.gz``` after extract file you used below example command to run program in terminal without need to python install:
+I have written a Test Program. To use this program, you need to copy the binary file into the server and extract it with the command ```tar xvf ftpsTest.tar.gz```. After extracting the file, you should use the below example command to run the program in the terminal without any need to install Python:
 
 ```bash
 ./ftpsClass 172.25.205.37 990 testftp Zz123456 /home/ghaffari/ testUpload.txt /mahdi
