@@ -18,6 +18,11 @@ upload_file(ftp_connection, upload_file_path)
 I have written a Test Program. To use this program, you need to copy the binary file into the server and extract it with the command ```tar xvf ftpsTest.tar.gz```. After extracting the file, you should use the below example command to run the program in the terminal without any need to install Python:
 
 ```bash
+usage: ftpsClass [-h]
+                 ip port ftp_user ftp_pass local_pathFile local_uploadFile
+                 rmt_dir
+```
+```bash
 ./ftpsClass 172.25.205.37 990 testftp Zz123456 /home/ghaffari/ testUpload.txt /mahdi
 ```
 
