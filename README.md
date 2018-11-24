@@ -12,6 +12,15 @@ Use the function `upload_file` for the test upload.
 upload_file(ftp_connection, upload_file_path)
 ```
 
+## Test Program
+
+I am write a Test Program, For Use this Program you need copy binary file to server and Extract with command ```tar xvf ftpsTest.tar.gz``` after extract file you used below example command to run program in terminal without need to python install:
+
+```bash
+./ftpsClass 172.25.205.37 990 testftp Zz123456 /home/ghaffari/ testUpload.txt /mahdi
+```
+
+
 ## Useful URL
 [ftplib — FTP protocol client](https://docs.python.org/3/library/ftplib.html#ftplib.FTP.transfercmd)
 
