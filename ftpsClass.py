@@ -30,6 +30,28 @@ class tyFTP(ftplib.FTP_TLS):
                                 certfile=certfile,
                                 timeout=timeout)
 
+    # def storbinary(self, cmd, fp, blocksize=8192, callback=None, rest=None):
+    #     self.voidcmd('TYPE I')
+    #     with self.transfercmd(cmd, rest) as conn:
+    #         while 1:
+    #             buf = fp.read(blocksize)
+    #             if not buf:
+    #                 break
+    #             conn.sendall(buf)
+    #             if callback:
+    #                 callback(buf)
+    #         # shutdown ssl layer
+    #         if _SSLSocket is not None and isinstance(conn, _SSLSocket):
+    #             try:
+    #                 # conn.unwrap()
+    #                 print("pass")
+    #             except Exception as e:
+    #                 print(e)
+    #     try:
+    #         return self.voidresp()
+    #     except Exception as e:
+    #         print(e)
+
     def storbinary(self, cmd, fp, blocksize=8192, callback=None, rest=None):
         """Store a file in binary mode.  A new port is created for you.
 
@@ -46,7 +68,8 @@ class tyFTP(ftplib.FTP_TLS):
           The response code.
         """
         self.voidcmd('TYPE I')
-        with self.transfercmd(cmd, rest) as conn:
+        conn = self.transfercmd(cmd, rest)
+        try:
             while 1:
                 buf = fp.read(blocksize)
                 if not buf:
@@ -54,16 +77,12 @@ class tyFTP(ftplib.FTP_TLS):
                 conn.sendall(buf)
                 if callback:
                     callback(buf)
-            # shutdown ssl layer
-            if _SSLSocket is not None and isinstance(conn, _SSLSocket):
-                try:
-                    conn.unwrap()
-                except Exception as e:
-                    print(e)
-        try:
-            return self.voidresp()
-        except Exception as e:
-            print(e)
+            if isinstance(conn, ssl.SSLSocket):
+                pass
+        #         conn.unwrap()
+        finally:
+            conn.close()
+        return self.voidresp()
 
     def connect(self, host='', port=0, timeout=-999):
         """Connect to host.  Arguments are:

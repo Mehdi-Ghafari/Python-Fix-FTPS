@@ -57,7 +57,8 @@ class tyFTP(ftplib.FTP_TLS):
           The response code.
         """
         self.voidcmd('TYPE I')
-        with self.transfercmd(cmd, rest) as conn:
+        conn = self.transfercmd(cmd, rest)
+        try:
             while 1:
                 buf = fp.read(blocksize)
                 if not buf:
@@ -65,16 +66,12 @@ class tyFTP(ftplib.FTP_TLS):
                 conn.sendall(buf)
                 if callback:
                     callback(buf)
-            # shutdown ssl layer
-            if _SSLSocket is not None and isinstance(conn, _SSLSocket):
-                try:
-                    conn.unwrap()
-                except Exception as e:
-                    print(e)
-        try:
-            return self.voidresp()
-        except Exception as e:
-            print(e)
+            if isinstance(conn, ssl.SSLSocket):
+                pass
+        #         conn.unwrap()
+        finally:
+            conn.close()
+        return self.voidresp()
 
     def connect(self, host='', port=0, timeout=-999, **kwargs):
         """
