@@ -60,6 +60,7 @@ usage: ftpsClass [-h]
 
 [windows bug: Bug it IIS 8.0 Update to IIS 10.0 - Windows Server 2016](https://social.technet.microsoft.com/Forums/en-US/cc650ccd-9ab2-44a3-be52-5e0a9f93c61d/win8-clients-cant-write-over-ftps-to-win-2012-with-ftp-site-hosted-in-iis-8?forum=winserver8gen)
 
+[Implicit FTPS to ShareFile fails with “operation timed out” in Python](https://stackoverflow.com/questions/41598565/implicit-ftps-to-sharefile-fails-with-operation-timed-out-in-python)
 
 
 ## Contributing
